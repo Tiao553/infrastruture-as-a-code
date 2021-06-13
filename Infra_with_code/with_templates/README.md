@@ -4,4 +4,4 @@ Esta é a forma mais fácil de subirmos estrutura como código, especialmente na
 
 # Como exemplo montamos as permissões e criação de storages no S3
 
-<center><img width="80%" src="https://raw.githubusercontent.com/Tiao553/Bootcamp_EngDados/infra_with_template/test/arqueotipo.png"></center>
+<center><img width="80%" src="https://raw.githubusercontent.com/Tiao553/infrastruture-as-a-code/main/Infra_with_code/with_templates/CFtemplate.png"></center>
