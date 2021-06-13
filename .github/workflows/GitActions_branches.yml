@@ -1,0 +1,27 @@
+name : deploy bucket on the github actions em qualquer menos main
+
+
+on:
+  push:
+      branches-ignore:
+        - main
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Install test dependencies
+      run: |
+        pip install pytest
+
+    - name: Run tests
+      run: |
+        python -m pytest
