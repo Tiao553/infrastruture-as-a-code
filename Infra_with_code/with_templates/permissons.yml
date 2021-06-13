@@ -1,0 +1,227 @@
+Description: Cria grupo, funcao e politicas para cada setor que precisão de acesso direto as informações
+
+Resources:
+
+################################################################################
+###################### Data Engineering #########################################
+################################################################################
+
+  IamRoleDataEngineer:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub 'arn:aws:iam::${AWS::AccountId}:root'
+            Action:
+              - sts:AssumeRole
+      Description: Funcao para ser assumida por engenheiros de dados
+      ManagedPolicyArns:
+        - !Ref IamPolicyDataEngineer
+      RoleName: role-data-engineer
+
+  IamPolicyDataEngineer:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Politicas de acesso para engenheiro de dados
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:List*
+              - s3:Get*
+              - s3:Delete*
+              - s3:Put*
+            Resource:
+              - arn:aws:s3:::*
+
+  IamGroupDataEngineer:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: iam-group-data-engineer
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/ReadOnlyAccess
+        - !Ref IamPolicyGroupDataEngineer
+
+  IamPolicyGroupDataEngineer:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Politicas de acesso para o grupo de engenheiros de dados
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - sts:AssumeRole
+            Resource:
+              - !GetAtt IamRoleDataEngineer.Arn
+
+################################################################################
+###################### Data scientist ##########################################
+################################################################################
+  IamRoleDataScientist:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub 'arn:aws:iam::${AWS::AccountId}:root'
+            Action:
+              - sts:AssumeRole
+      Description: Funcao para ser assumida por cientistas de dados
+      ManagedPolicyArns:
+        - !Ref IamPolicyDataScientist
+      RoleName: role-data-scientist
+
+  IamPolicyDataScientist:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Politicas de acesso para cientistas de dados
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:List*
+              - s3:Get*
+            Resource:
+              - arn:aws:s3:::*
+
+  IamGroupDataScientist:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: iam-group-data-scientist
+      ManagedPolicyArns:
+        - !Ref IamPolicyGroupDataScientist
+
+  IamPolicyGroupDataScientist:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Politicas de acesso para o grupo de cientistas de dados
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - sts:AssumeRole
+            Resource:
+              - !GetAtt IamRoleDataScientist.Arn
+
+################################################################################
+###################### Developer's #############################################
+################################################################################
+
+  IamRoleDeveloper:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub 'arn:aws:iam::${AWS::AccountId}:root'
+            Action:
+              - sts:AssumeRole
+      Description: Funcao para ser assumida por Developer's
+      ManagedPolicyArns:
+        - !Ref IamPolicyDeveloper
+      RoleName: role-developer
+
+  IamPolicyDeveloper:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Politicas de acesso para developer's
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:List*
+              - s3:Get*
+              - s3:Delete*
+              - s3:Put*
+            Resource:
+              - arn:aws:s3:::*
+
+  IamGroupDeveloper:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: iam-group-developer
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/ReadOnlyAccess
+        - !Ref IamPolicyDeveloper
+
+  IamPolicyGroupDeveloper:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Politicas de acesso para o grupo de Developer
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - sts:AssumeRole
+            Resource:
+              - !GetAtt IamRoleDeveloper.Arn
+
+################################################################################
+###################### Business Analitics ######################################
+################################################################################
+
+  IamRoleBA:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub 'arn:aws:iam::${AWS::AccountId}:root'
+            Action:
+              - sts:AssumeRole
+      Description: Funcao para ser assumida por Business Analitics
+      ManagedPolicyArns:
+        - !Ref IamPolicyBA
+      RoleName: role-ba
+
+  IamPolicyBA:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Politicas de acesso para Business Analitics
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:List*
+              - s3:Get*
+              - s3:Delete*
+              - s3:Put*
+            Resource:
+              - arn:aws:s3:::*
+
+  IamGroupBA:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: iam-group-ba
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/ReadOnlyAccess
+        - !Ref IamPolicyBA
+
+  IamPolicyGroupBA:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Politicas de acesso para o grupo de Business Analitics
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - sts:AssumeRole
+            Resource:
+              - !GetAtt IamRoleBA.Arn
